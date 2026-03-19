@@ -4,15 +4,21 @@ export default app;
 
 import morgan from "morgan";
 
+import userRouter from "#api/users";
 import tracksRouter from "#api/tracks";
 import playlistsRouter from "#api/playlists";
+import getUserFromToken from "#middleware/getUserFromToken";
 
 app.use(express.json());
+
+app.use(getUserFromToken);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
 app.use("/tracks", tracksRouter);
 app.use("/playlists", playlistsRouter);
+app.use("/users", userRouter);
 
 app.use((err, req, res, next) => {
   // A switch statement can be used instead of if statements
